@@ -5,19 +5,34 @@ import { ProductServices } from "./product.service";
 const createNewProduct = async (req: Request, res: Response) => {
   try {
     const product = req.body.product;
-    console.log(product);
     const result = await ProductServices.createNewProductToDB(product);
 
     res.status(200).json({
       success: true,
-      message: "Product added successfully",
+      message: "Product created successfully!",
       result,
     });
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something went wrong upon creating product",
+      err,
+    });
+  }
+};
+
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getAllProductFromDB();
+    res.status(200).json({
+      success: true,
+      message: "retrieved all products",
+      result,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Something went wrong upon getting all product",
       err,
     });
   }
@@ -25,4 +40,5 @@ const createNewProduct = async (req: Request, res: Response) => {
 
 export const ProductController = {
   createNewProduct,
+  getAllProduct,
 };
