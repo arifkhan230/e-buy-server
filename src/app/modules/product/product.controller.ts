@@ -5,8 +5,9 @@ import productValidationSchema from "./product.validator";
 // adding new data to mongodb
 const createNewProduct = async (req: Request, res: Response) => {
   try {
-    const product = req.body.product;
+    const product = req.body;
     const { error, value } = productValidationSchema.validate(product);
+
     if (error) {
       return res.status(500).json({
         success: false,
@@ -16,7 +17,6 @@ const createNewProduct = async (req: Request, res: Response) => {
     }
 
     const result = await ProductServices.createNewProductToDB(value);
-
     res.status(200).json({
       success: true,
       message: "Product created successfully!",
@@ -81,11 +81,22 @@ const getSingleProduct = async (req: Request, res: Response) => {
 // updating a single product
 const updateSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { product } = req.body;
+    const product = req.body;
     const { productId } = req.params;
+
+    const { error, value } = productValidationSchema.validate(product);
+
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+        error,
+      });
+    }
+
     const result = await ProductServices.updateSingleProductToDB(
       productId,
-      product
+      value
     );
     res.status(200).json({
       success: true,

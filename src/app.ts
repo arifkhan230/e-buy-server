@@ -13,7 +13,7 @@ app.use("/api/products", ProductsRoute);
 app.use("/api/orders", OrderRoute);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send({ message: "Welcome to e-buy server" });
 });
 
 // for wrong route

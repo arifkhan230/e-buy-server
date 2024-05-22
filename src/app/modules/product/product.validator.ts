@@ -33,6 +33,12 @@ const productValidationSchema = Joi.object({
     "string.base": "Description should be a string",
     "any.required": "Description is required",
   }),
+  price: Joi.number().integer().strict().min(0).required().messages({
+    "number.base": "Price should be a number",
+    "number.integer": "Price must be an integer",
+    "number.min": "Price cannot be negative",
+    "any.required": "Price is required",
+  }),
   category: Joi.string().required().messages({
     "string.base": "Category should be a string",
     "any.required": "Category is required",
