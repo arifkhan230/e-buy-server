@@ -23,7 +23,12 @@ const createNewProduct = async (req: Request, res: Response) => {
 
 const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.getAllProductFromDB();
+    // searching for product
+    const { searchTerm } = req.query;
+    if (searchTerm) {
+      const result = await ProductServices.getAllProductFromDB(searchTerm);
+    }
+    const result = await ProductServices.getAllProductFromDB(searchTerm);
     res.status(200).json({
       success: true,
       message: "retrieved all products",

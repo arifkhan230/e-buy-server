@@ -9,7 +9,17 @@ const createNewProductToDB = async (product: IProduct) => {
 };
 
 // getting all products
-const getAllProductFromDB = async () => {
+const getAllProductFromDB = async (searchTerm: any) => {
+  if (searchTerm) {
+    const result = await ProductModel.find({
+      $or: [
+        { name: { $regex: `${searchTerm}`, $options: "i" } },
+        { description: { $regex: `${searchTerm}`, $options: "i" } },
+        { category: { $regex: `${searchTerm}`, $options: "i" } },
+      ],
+    });
+    return result;
+  }
   const result = await ProductModel.find();
   return result;
 };
