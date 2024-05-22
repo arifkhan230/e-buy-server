@@ -31,6 +31,8 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
       success: false,
       message: "something went wrong",
     });
+  } else {
+    next();
   }
 });
 

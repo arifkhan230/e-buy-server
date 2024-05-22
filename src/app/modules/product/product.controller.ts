@@ -1,11 +1,21 @@
 import { Request, Response } from "express";
 import { ProductServices } from "./product.service";
+import productValidationSchema from "./product.validator";
 
 // adding new data to mongodb
 const createNewProduct = async (req: Request, res: Response) => {
   try {
     const product = req.body.product;
-    const result = await ProductServices.createNewProductToDB(product);
+    const { error, value } = productValidationSchema.validate(product);
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+        error,
+      });
+    }
+
+    const result = await ProductServices.createNewProductToDB(value);
 
     res.status(200).json({
       success: true,
