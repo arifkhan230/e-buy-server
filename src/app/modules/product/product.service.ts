@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import { IProduct } from "./product.interface";
 import { ProductModel } from "./product.model";
 
@@ -9,7 +8,7 @@ const createNewProductToDB = async (product: IProduct) => {
 };
 
 // getting all products
-const getAllProductFromDB = async (searchTerm: any) => {
+const getAllProductFromDB = async (searchTerm: unknown) => {
   if (searchTerm) {
     const result = await ProductModel.find({
       $or: [

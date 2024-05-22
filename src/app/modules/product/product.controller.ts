@@ -20,7 +20,7 @@ const createNewProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Product created successfully!",
-      result,
+      data: result,
     });
   } catch (err) {
     res.status(400).json({
@@ -35,14 +35,21 @@ const getAllProduct = async (req: Request, res: Response) => {
   try {
     // searching for product
     const { searchTerm } = req.query;
+    // searching product
     if (searchTerm) {
       const result = await ProductServices.getAllProductFromDB(searchTerm);
+      return res.status(200).json({
+        success: true,
+        message: `Products matching search term ${searchTerm} fetched successfully!`,
+        data: result,
+      });
     }
+    // getting all products
     const result = await ProductServices.getAllProductFromDB(searchTerm);
     res.status(200).json({
       success: true,
-      message: "retrieved all products",
-      result,
+      message: "Products fetched successfully!",
+      data: result,
     });
   } catch (err) {
     res.status(400).json({
@@ -59,8 +66,8 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.getSingleProductFromDB(productId);
     res.status(200).json({
       success: true,
-      message: "retrieved single product",
-      result,
+      message: "Product fetched successfully!",
+      data: result,
     });
   } catch (err) {
     res.status(400).json({
@@ -82,8 +89,8 @@ const updateSingleProduct = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: "Product updated successfully",
-      result,
+      message: "Product updated successfully!",
+      data: result,
     });
   } catch (err) {
     res.status(400).json({
@@ -98,10 +105,10 @@ const updateSingleProduct = async (req: Request, res: Response) => {
 const deleteSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const result = await ProductServices.deleteSingleProductFromDB(productId);
+    await ProductServices.deleteSingleProductFromDB(productId);
     res.status(200).json({
       success: true,
-      message: "Product deleted successfully",
+      message: "Product deleted successfully!",
       data: null,
     });
   } catch (err) {

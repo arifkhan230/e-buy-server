@@ -1,4 +1,4 @@
-import { ObjectId, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { IOrder } from "./order.interface";
 import { ProductModel } from "../product/product.model";
 
@@ -23,9 +23,11 @@ const orderSchema = new Schema<IOrder>({
 
 // post save middleware/hook
 
-orderSchema.post("save", async function (doc, next) {
+orderSchema.post("save", async function (doc) {
   const order = doc;
-  const product: any = await ProductModel.findOne({ _id: order.productId });
+  const product: any | unknown = await ProductModel.findOne({
+    _id: order.productId,
+  });
 
   const updateQuantity = product?.inventory?.quantity - order?.quantity;
 

@@ -49,7 +49,7 @@ const createNewOrder = async (req: Request, res: Response) => {
 // getting all orders
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    const email: any = req.query.email;
+    const email: string | any = req.query.email;
 
     const result = await OrderServices.getAllOrdersFromDB(email);
     res.status(200).json({

@@ -9,7 +9,7 @@ const createNewOrderToDB = async (order: IOrder) => {
 
 // getting all orders
 const getAllOrdersFromDB = async (email: string | undefined) => {
-  let query: { email?: string } = {};
+  const query: { email?: string } = {};
   if (email) {
     query.email = email;
   }
